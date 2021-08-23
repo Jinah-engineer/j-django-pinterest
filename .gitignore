@@ -90,3 +90,5 @@ settings.py
 venv/
 
 .env
+
+.idea/
