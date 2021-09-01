@@ -1,0 +1,39 @@
+.pragmatic_footer {
+    text-align: center; margin-top: 2rem;
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+}
+
+.pragmatic_footer_button {
+    font-size: .6rem;
+}
+
+.pragmatic_header {
+    text-align: center; margin: 2rem 0;
+}
+
+/*
+    Display attribute
+        1. block
+        2. Inline
+        3. Inline-block
+        4. None
+
+    Visibility attribute
+        1. Hidden <-> display 의 none 과 차이가 있다
+
+    Size attribute - related with Font-size (responsive web)
+        1. px
+        2. em - has parent. parent 의 font 크기가 커지면 동시에 덩달아 커진다. but 부모가 여러개 있다면 문제 발생.
+        3. rem ** - root HTML 의 default font-size: 16px. 이 값에 anchoring 되어 있다.
+        4. %
+ */
+
+/*
+    CSS 적용 순서
+        1. tag 에 적용되는 style
+        2. style tag
+        3. css stylesheet
+ */

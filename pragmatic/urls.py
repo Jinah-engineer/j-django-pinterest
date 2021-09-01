@@ -5,7 +5,12 @@
 from django.contrib import admin
 from django.urls import path, include
 
+def trigger_error(request):
+    division_by_zero = 1 / 0
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('sentry-debug/', trigger_error),
     path('account/', include('accountapp.urls'))  # accountapps.urls.py 의 파일을 참조하여 안에서 다시 분기를 하는
 ]
+

@@ -3,8 +3,30 @@
 {%  block content %}
 
     <!-- Middle -->
-    <div style="height: 20rem; background-color: #38df81; border-radius: 1rem; margin: 2rem;">
-        <h1>Testing</h1>
+    <div style="border-radius: 1rem; margin: 2rem; text-align: center;">
+        <h1 style="font-family: 'Playfair Display', cursive;">
+            Hello, ThIS IS Jinma Space!
+        </h1>
+
+        <form action="/account/hello_world/" method="post">
+            {# POST 방식으로 요청을 보낼 때는 항상 csrf token 을 명시해주어야 한다 #}
+            {% csrf_token %}
+            <div>
+                <input type="text" name="hello_world_input">
+            </div>
+            <div>
+                <input type="submit" class="btn btn-primary" value="POST">
+            </div>
+        </form>
+
+        {% if hello_world_list %}
+            {% for hello_world in hello_world_list %}
+                <h4>
+                    {#  view.py 의 method 로부터 받은 hello_world_list #}
+                    {{ hello_world.text }}
+                </h4>
+            {% endfor %}
+        {% endif %}
     </div>
 
 {%  endblock %}
