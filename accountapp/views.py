@@ -1,3 +1,5 @@
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User # django 에서 기본으로 제공하는 (ctrl + b)
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
@@ -5,6 +7,7 @@ from django.shortcuts import render
 # Check request valid
 # Collect data from DB
 # Render response
+from django.views.generic import CreateView
 
 """
     Account
@@ -19,7 +22,7 @@ from django.shortcuts import render
 """
 # def = define
 # request 를 넣어서 response 에 답해준다
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from accountapp.models import HelloWorld
 
@@ -51,3 +54,12 @@ def hello_world(request):
     - POST -- create, update. 서버 내에 정보를 만들거나 수정할 때. 추가적으로 body 응답 내부에 있는 몸통에 data 를 넣어서 보낸다. 
     
 """
+
+class AccountCreateView(CreateView):
+    model = User
+    # User model 을 만드는 데 필요한 form
+    form_class = UserCreationForm
+    # 계정을 만드는 데 성공했다면 어느 경로로 보내줄 지
+    success_url = reverse_lazy('accountapp:hello_world') # reverser_lazy 는 class base view 에서 사용
+    # 어느 html file 을 이용해서 볼 지
+    template_name = 'accountapp/create.html'
