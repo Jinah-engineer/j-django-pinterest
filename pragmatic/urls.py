@@ -11,6 +11,6 @@ def trigger_error(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('sentry-debug/', trigger_error),
-    path('account/', include('accountapp.urls'))  # accountapps.urls.py 의 파일을 참조하여 안에서 다시 분기를 하는
+    path('accounts/', include('accountapp.urls'))  # accountapps.urls.py 의 파일을 참조하여 안에서 다시 분기를 하는
 ]
 

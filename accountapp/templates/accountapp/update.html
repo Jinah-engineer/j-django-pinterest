@@ -7,7 +7,7 @@
         <div class="mb-4"> <!-- Margin bottom -->
             <h4>Change Information</h4>
         </div>
-        <form action="{% url 'accountapp:update' pk=user.pk %}" method="post"> {# accountapp 에 있는 create routing 으로 연결해라 #}
+        <form action="{% url 'accountapp:update' pk=target_user.pk %}" method="post"> {# accountapp 에 있는 create routing 으로 연결해라 #}
             {% csrf_token %} {# post 에는 항상 들어가야 된다 #}
             {% bootstrap_form form %}
             <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3">
