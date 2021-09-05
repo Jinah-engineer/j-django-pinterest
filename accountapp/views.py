@@ -7,7 +7,9 @@ from django.shortcuts import render
 # Check request valid
 # Collect data from DB
 # Render response
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+
+from accountapp.forms import AccountUpdateForm
 
 """
     Account
@@ -55,6 +57,7 @@ def hello_world(request):
     
 """
 
+# 회원가입
 class AccountCreateView(CreateView):
     model = User
     # User model 을 만드는 데 필요한 form
@@ -63,3 +66,22 @@ class AccountCreateView(CreateView):
     success_url = reverse_lazy('accountapp:hello_world') # reverser_lazy 는 class base view 에서 사용
     # 어느 html file 을 이용해서 볼 지
     template_name = 'accountapp/create.html'
+
+# 회원정보
+class AccountDetailView(DetailView):
+    model = User
+    context_object_name = 'target_user'
+    template_name = 'accountapp/user_detail.html'
+
+# 계정정보 수정
+class AccountUpdateView(UpdateView):
+    model = User
+    form_class = AccountUpdateForm
+    success_url = reverse_lazy('accountapp:hello_world')
+    template_name = 'accountapp/update.html'
+
+# 계정 삭제
+class AccountDeleteView(DeleteView):
+    model = User
+    success_url = reverse_lazy('accountapp:login')
+    template_name = 'accountapp/delete.html'
