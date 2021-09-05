@@ -1,14 +1,17 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User # django 에서 기본으로 제공하는 (ctrl + b)
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render
 
 # Check if authenticated
 # Check request valid
 # Collect data from DB
 # Render response
+from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
+from accountapp.decorators import account_ownership_required
 from accountapp.forms import AccountUpdateForm
 
 """
@@ -29,24 +32,28 @@ from django.urls import reverse, reverse_lazy
 from accountapp.models import HelloWorld
 
 
+has_ownership = [account_ownership_required, login_required]
+
+
+@login_required # decorator
 def hello_world(request):
 
-    if request.method == "POST": # request 요청이 post 일 경우
+        if request.method == "POST": # request 요청이 post 일 경우
 
-        # request 중 POST request 에서 'hello_world_input' 이라는 name 의 input 을  가져온다
-        temp = request.POST.get('hello_world_input')
+            # request 중 POST request 에서 'hello_world_input' 이라는 name 의 input 을  가져온다
+            temp = request.POST.get('hello_world_input')
 
-        # models.py 에서 나온 HelloWorld 객체
-        new_hello_world = HelloWorld()
-        new_hello_world.text = temp # 변수의 text value
-        new_hello_world.save()
+            # models.py 에서 나온 HelloWorld 객체
+            new_hello_world = HelloWorld()
+            new_hello_world.text = temp # 변수의 text value
+            new_hello_world.save()
 
-        # data 전송이 종료되면 다시 GET 요청으로 돌아가게 한다
-        return HttpResponseRedirect(reverse('accountapp:hello_world'))
+            # data 전송이 종료되면 다시 GET 요청으로 돌아가게 한다
+            return HttpResponseRedirect(reverse('accountapp:hello_world'))
 
-    else: # get 요청일 경우에
-        hello_world_list = HelloWorld.objects.all()
-        return render(request, 'accountapp/hello_world.html', context={'hello_world_list': hello_world_list})
+        else: # get 요청일 경우에
+            hello_world_list = HelloWorld.objects.all()
+            return render(request, 'accountapp/hello_world.html', context={'hello_world_list': hello_world_list})
 
 
 """
@@ -74,6 +81,8 @@ class AccountDetailView(DetailView):
     template_name = 'accountapp/user_detail.html'
 
 # 계정정보 수정
+@method_decorator(has_ownership, 'get')
+@method_decorator(has_ownership, 'post')
 class AccountUpdateView(UpdateView):
     model = User
     context_object_name = 'target_user'
@@ -81,7 +90,10 @@ class AccountUpdateView(UpdateView):
     success_url = reverse_lazy('accountapp:hello_world')
     template_name = 'accountapp/update.html'
 
+
 # 계정 삭제
+@method_decorator(has_ownership, 'get')
+@method_decorator(has_ownership, 'post')
 class AccountDeleteView(DeleteView):
     model = User
     context_object_name = 'target_user'
