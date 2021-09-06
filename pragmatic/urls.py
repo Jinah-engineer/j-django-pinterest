@@ -14,5 +14,6 @@ urlpatterns = [
     path('sentry-debug/', trigger_error),
     path('accounts/', include('accountapp.urls')),  # accountapps.urls.py 의 파일을 참조하여 안에서 다시 분기를 하는
     path('profiles/', include('profileapp.urls')),
+    path('articles/', include('articleapp.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
