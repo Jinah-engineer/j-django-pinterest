@@ -6,10 +6,44 @@
             <p>
                 {{ target_user.date_joined }}
             </p>
-            <h2 style="font-family: 'NanumSquareB">
-                {{ target_user.username }}
-            </h2>
 
+
+            <!-- Profile 접근 경로 -->
+            {% if target_user.profile %}
+
+            <!-- Profile Image -->
+            <img style="height: 10rem; width: 10rem; border-radius: 20rem; margin-bottom: 2rem;" 
+                 src="{{ target_user.profile.image.url }}" alt="">
+
+                <h2 style="font-family: 'NanumSquareB">
+                    {{ target_user.profile.nickname }}
+                    {% if target_user == user %}
+                        <a href="{% url 'profileapp:update' pk=target_user.profile.pk %}">
+                            Edit
+                        </a>
+                </h2>
+                    {% endif %}
+
+                <h5 style="margin-bottom: 3rem;">
+                    {{ target_user.profile.message }}
+                </h5>
+
+            {% else %}
+                   {% if target_user == user %}
+                        <a href="{% url 'profileapp:create' %}">
+                            <h2 style="font-family: 'NanumSquareB';">
+                                Create Profile
+                            </h2>
+                        </a>
+                   {% else %}
+                        <h2>
+                            닉네임이 설정되지 않은 사용자입니다.
+                        </h2>
+                   {% endif %}
+            {% endif %}
+
+
+            <!-- 계정 정보 수정/삭제 접근 경로 -->
             {% if target_user == user %} {# user = 지금 접속한 유저 #}
                 <a href="{% url 'accountapp:update' pk=user.pk %}">
                     <p>
