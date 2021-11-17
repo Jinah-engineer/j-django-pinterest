@@ -13,11 +13,25 @@
 .pragmatic_header {
     text-align: center; margin: 2rem 0;
 }
-d
+
 @media screen and (max-width: 500px) {
     html {
         font-size: 13px;
     }
+}
+a {
+    color: black;
+}
+
+a:hover {
+    color: hotpink;
+    text-decoration: none;
+}
+.pragmatic_header_nav {
+    margin: 0 0.5rem;
+}
+.pragmatic_header_navbar {
+    margin: 1rem 0;
 }
 
 /*
